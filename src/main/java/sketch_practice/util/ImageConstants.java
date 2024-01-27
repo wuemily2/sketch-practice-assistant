@@ -27,7 +27,8 @@ public final class ImageConstants {
                 return false;
             }
             String fileExtension = fileName.substring(extensionStart+1);
-            return getAggregateEndingsList().contains(fileExtension);
+            //sometimes file extensions are in caps, so the lower case is necessary
+            return getAggregateEndingsList().contains(fileExtension.toLowerCase());
         }
         public boolean accept(File pathname){
             return isValidJavaFXImageFile(pathname);
