@@ -2,6 +2,7 @@ package sketch_practice.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Observable;
 
 /*
@@ -9,9 +10,8 @@ This class stores a list of directories and loose files, and returns a list of f
 under the directories, combined with list of loose files that are images.
  */
 public class ImageFileFinder extends Observable {
-    private ArrayList<File> imageDirectories = new ArrayList<>();
-    private ArrayList<File> looseImages = new ArrayList<>();
-
+    private HashSet<File> imageDirectories = new HashSet<>();
+    private HashSet<File> looseImages = new HashSet<>();
     public boolean addImages(File imageOrDirectory){
         if(imageOrDirectory.isFile()){
             //TODO: Add error checking for valid image file
@@ -27,19 +27,19 @@ public class ImageFileFinder extends Observable {
         }
     }
 
-    public ArrayList<String> getDirectoriesAsString(){
-        return new ArrayList<String>(); //TODO implement. Return a string representation of the directories
+    public HashSet<File> getDirectories(){
+        return this.imageDirectories;
     }
 
-    public ArrayList<String> getLooseFilesAsString(){
-        return new ArrayList<String>(); //TODO implement. Return a string representation of the loose files.
+    public HashSet<File> getLooseFiles(){
+        return this.looseImages;
     }
 
     //Sort through all the image files and return the necessary list.
     // May want to save a memo if, for some reason, this has to be done multiple times and takes too long
-    public ArrayList<File> getAllImageFiles(){
+    public HashSet<File> getAllImageFiles(){
         //TODO: implement
-        return looseImages; // need to delete later.
+        return new HashSet<File>(); // need to delete later.
     }
 
 }
