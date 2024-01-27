@@ -1,6 +1,7 @@
 package sketch_practice.model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
@@ -84,12 +85,11 @@ public class ImageFileFinder extends Observable {
 
     //Sort through all the image files and return the necessary list.
     // May want to save a memo if, for some reason, this has to be done multiple times and takes too long
-    public HashSet<File> getAllImageFiles(){
-        //TODO: implement
+    public ArrayList<File> getAllImageFiles(){
         HashSet<File> allImageFiles = new HashSet<>();
         allImageFiles.addAll(this.looseImages);
         allImageFiles.addAll(getImageFilesUpToDepth(this.imageDirectories));
-        return allImageFiles; // need to delete later.
+        return new ArrayList<File>(allImageFiles);
     }
 
     public static void main(String[] args){
@@ -102,7 +102,7 @@ public class ImageFileFinder extends Observable {
         System.out.println(fileFinder.addFileObjects(directoryTwoWithDepth));
         System.out.println(fileFinder.addFileObjects(oneImage));
 
-        HashSet<File> foundImageFiles = fileFinder.getAllImageFiles();
+        ArrayList<File> foundImageFiles = fileFinder.getAllImageFiles();
         for(File file : foundImageFiles){
             System.out.println(file.getAbsolutePath());
         }
