@@ -85,7 +85,7 @@ public class ImageFileFinder extends Observable {
 
     //Sort through all the image files and return the necessary list.
     // May want to save a memo if, for some reason, this has to be done multiple times and takes too long
-    public ArrayList<File> getAllImageFiles(){
+    public ArrayList<File> getAllImageFilesAsArrayList(){
         HashSet<File> allImageFiles = new HashSet<>();
         allImageFiles.addAll(this.looseImages);
         allImageFiles.addAll(getImageFilesUpToDepth(this.imageDirectories));
@@ -102,7 +102,7 @@ public class ImageFileFinder extends Observable {
         System.out.println(fileFinder.addFileObjects(directoryTwoWithDepth));
         System.out.println(fileFinder.addFileObjects(oneImage));
 
-        ArrayList<File> foundImageFiles = fileFinder.getAllImageFiles();
+        ArrayList<File> foundImageFiles = fileFinder.getAllImageFilesAsArrayList();
         for(File file : foundImageFiles){
             System.out.println(file.getAbsolutePath());
         }
