@@ -10,6 +10,7 @@ public class ImageCycler extends Observable {
 
     private ArrayList<File> imageFiles; // assume received list of image files is exactly images.
     private int currentImage; // track index of the current image
+    private boolean visible = true;
 
     // Take in a list of imagefiles to cycle through
     public ImageCycler(ArrayList<File> imageFiles){
@@ -18,6 +19,11 @@ public class ImageCycler extends Observable {
             Collections.shuffle(this.imageFiles);
             this.currentImage = 0;
         }
+    }
+
+    public void toggleVisibility() {
+        this.visible = !this.visible;
+        this.notifyObservers();
     }
 
     // Assumes that a validindex is received. changes the image to the new index, and
