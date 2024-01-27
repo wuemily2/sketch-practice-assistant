@@ -28,6 +28,15 @@ public class ImageFileFinder extends Observable {
         }
         return false; // return false if adding has failed in any way
     }
+
+    public boolean removeFileObjects(File file){
+        if(file.isDirectory()){
+            return this.imageDirectories.remove(file);
+        }else{
+            return this.looseImages.remove(file);
+        }
+    }
+
     public void setDefaultSearchDepth(int depth){
         if (depth > 0){
             defaultSearchDepth = depth;
