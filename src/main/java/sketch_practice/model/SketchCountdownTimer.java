@@ -27,6 +27,10 @@ public class SketchCountdownTimer extends Observable {
         return this.timeLeft;
     }
 
+    public String getTimeLeftAsString() {// just minutes and seconds cuz you shouldn't use this if you're hitting 1 hr
+        return String.format("%d:%d", this.timeLeft / 60, this.timeLeft % 60 );
+    }
+
     class TickingTask extends TimerTask { // Should be scheduled to run every second
         public void run(){
             if (SketchCountdownTimer.this.timeLeft > 0) {
