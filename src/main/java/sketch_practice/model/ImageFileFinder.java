@@ -1,7 +1,6 @@
 package sketch_practice.model;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
@@ -16,7 +15,7 @@ public class ImageFileFinder extends Observable {
     private HashSet<File> looseImages = new HashSet<>();
 
     private static int defaultSearchDepth = 3;
-    public boolean addImages(File imageOrDirectory){
+    public boolean addFileObjects(File imageOrDirectory){
         if(imageOrDirectory.isFile() && ImageConstants.javaFXImageFileFilter.accept(imageOrDirectory)){
             this.looseImages.add(imageOrDirectory);
             this.notifyObservers(); // Notify observers that object contents have changed
@@ -94,7 +93,18 @@ public class ImageFileFinder extends Observable {
     }
 
     public static void main(String[] args){
+        //These filepaths would work on windows but I do not know about other platforms.
+        File directoryOne = new File("C:\\Users\\woodl\\Pictures\\Biru");
+        File directoryTwoWithDepth = new File("C:\\Users\\woodl\\Pictures\\Photo Reference and Bash Stash");
+        File oneImage = new File("C:\\Users\\woodl\\Pictures\\baal.png");
+        ImageFileFinder fileFinder = new ImageFileFinder();
+        System.out.println(fileFinder.addFileObjects(directoryOne));
+        System.out.println(fileFinder.addFileObjects(directoryTwoWithDepth));
+        System.out.println(fileFinder.addFileObjects(oneImage));
 
+        HashSet<File> foundImageFiles = fileFinder.getAllImageFiles();
+        for(File file : foundImageFiles){
+            System.out.println(file.getAbsolutePath());
+        }
     }
-
 }
