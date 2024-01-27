@@ -1,5 +1,6 @@
 package sketch_practice.controller;
 
+import sketch_practice.model.SketchCountdownTimer;
 import sketch_practice.util.Observable;
 import sketch_practice.util.Observer;
 
@@ -12,9 +13,9 @@ It does so either in response to updates from a timer (which I will consider par
 which can also change with controller input - start, stop, rewrite) or from users clicking buttons on the view (which
 will call the controller to do something).
  */
-public class CyclerController implements TimeoutResponder<Object> { //Todo: change from object to timer class
+public class CyclerController implements TimeoutResponder<SketchCountdownTimer> { //Todo: change from object to timer class
 
-    public void respond_to_timeout(Object o){
+    public void respond_to_timeout(SketchCountdownTimer timer){
 
     }
 }
