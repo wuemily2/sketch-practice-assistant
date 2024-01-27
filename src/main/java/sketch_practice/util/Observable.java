@@ -2,17 +2,15 @@ package sketch_practice.util;
 
 import java.util.ArrayList;
 
-public class Observable {
-    private ArrayList<Observer> observers = new ArrayList<Observer>();
-    public void attach(Observer o) {
-        observers.add(o);
-    }
-    public void detach(Observer o) {
-        observers.remove(o);
-    }
+
+/*
+We'll use this in conjunction with java.util.Observer
+ */
+public class Observable extends java.util.Observable {
+
+    @Override
     public void notifyObservers() {
-        for(Observer o:observers) {
-            o.update(this);
-        }
+        this.setChanged();
+        super.notifyObservers();
     }
 }
