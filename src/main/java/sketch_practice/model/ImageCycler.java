@@ -27,6 +27,9 @@ public class ImageCycler extends Observable {
         this.notifyObservers(); // Notify observers that image has changed
     }
 
+    //TODO: should we add file error checking here in case the images don't exist anymore?
+    // Trying to remove potentially multiple offending files could be work intensive for an arraylist
+    // but the same could be said for skipping over multiple offending files.
     public void go_to_next_image(){
         int next_index = this.currentImage + 1;
         if(next_index < this.imageFiles.size()){
