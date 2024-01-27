@@ -56,7 +56,6 @@ public class SketchCountdownTimer extends Observable {
 
     public void setNewTime(int newTimeInSeconds){
         // Stop the timer and assigns a new time. DOES NOT start the timer.
-        ; // TODO implement
         this.stopTimer();
         this.timeLeft = newTimeInSeconds;
         this.notifyObservers(); // notify a change in displayed time
