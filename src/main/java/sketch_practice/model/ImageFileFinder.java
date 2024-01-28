@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Observable;
+import sketch_practice.util.Observable;
 import sketch_practice.util.ImageConstants;
 
 /*
@@ -29,11 +29,11 @@ public class ImageFileFinder extends Observable {
         return false; // return false if adding has failed in any way
     }
 
-    public boolean removeFileObjects(File file){
+    public void removeFileObject(File file){
         if(file.isDirectory()){
-            return this.imageDirectories.remove(file);
+            this.imageDirectories.remove(file);
         }else{
-            return this.looseImages.remove(file);
+            this.looseImages.remove(file);
         }
     }
 

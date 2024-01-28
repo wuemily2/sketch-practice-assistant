@@ -10,7 +10,7 @@ public class ImageCycler extends Observable {
 
     private ArrayList<File> imageFiles; // assume received list of image files is exactly images.
     private int currentImage; // track index of the current image
-    private boolean visible = true;
+    private boolean visible = false;
 
     // Take in a list of imagefiles to cycle through
     public ImageCycler(ArrayList<File> imageFiles){
