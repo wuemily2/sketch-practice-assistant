@@ -1,5 +1,6 @@
 package sketch_practice.model;
 
+import javafx.application.Platform;
 import sketch_practice.controller.TimeoutResponder;
 import sketch_practice.util.Observable;
 import java.util.Timer;
@@ -9,7 +10,7 @@ import java.util.TimerTask;
 This timer is used as a simple countdown timer.
  */
 public class SketchCountdownTimer extends Observable {
-    private Timer timer; //A timer object to subtract one from timeLeft every second
+    Timer timer; //A timer object to subtract one from timeLeft every second
     private int timeLeft = 300; // Time left, in seconds, in the countdown
     TimeoutResponder<SketchCountdownTimer> responder;
 
@@ -38,13 +39,17 @@ public class SketchCountdownTimer extends Observable {
         return this.timeLeft;
     }
 
+    // TODO: seconds to two digit placements
     public String getTimeLeftAsString() {// just minutes and seconds cuz you shouldn't use this if you're hitting 1 hr
         return String.format("%d:%d", this.timeLeft / 60, this.timeLeft % 60 );
     }
 
     class TickingTask extends TimerTask { // Should be scheduled to run every second
-        public void run(){
+        public void executeTimerTick(){
+            //System.out.println("Executing tick.");
+            //System.out.format("TimeLeft %d", timeLeft);
             if (SketchCountdownTimer.this.timeLeft > 0) {
+
                 SketchCountdownTimer.this.timeLeft--;
                 SketchCountdownTimer.this.notifyObservers();
             }
@@ -54,6 +59,9 @@ public class SketchCountdownTimer extends Observable {
                 }
                 SketchCountdownTimer.this.stopTimer();// Stop the timer at 0
             }
+        }
+        public void run(){
+            executeTimerTick();
         }
     }
     public void startTimer(){
@@ -83,8 +91,6 @@ public class SketchCountdownTimer extends Observable {
         timer.startTimer();
         timer.setNewTime(10);
         timer.startTimer();
-        timer.stopTimer();
-        timer.stopTimer(); // multipler stops do not cause errors.
 
     }
 
