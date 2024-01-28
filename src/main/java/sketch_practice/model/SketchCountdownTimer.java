@@ -10,16 +10,27 @@ This timer is used as a simple countdown timer.
  */
 public class SketchCountdownTimer extends Observable {
     private Timer timer; //A timer object to subtract one from timeLeft every second
-    private int timeLeft; // Time left, in seconds, in the countdown
+    private int timeLeft = 300; // Time left, in seconds, in the countdown
     TimeoutResponder<SketchCountdownTimer> responder;
+
+    public SketchCountdownTimer(){
+        this.responder = null;
+    }
+    public SketchCountdownTimer(int seconds){
+        this();
+        this.timeLeft = seconds;
+    }
+
+    public SketchCountdownTimer(TimeoutResponder<SketchCountdownTimer> responder){
+        this.responder = responder;
+    }
 
     public SketchCountdownTimer(int seconds, TimeoutResponder<SketchCountdownTimer> responder){
         this.timeLeft = seconds;
         this.responder = responder;
     }
 
-    public SketchCountdownTimer(TimeoutResponder<SketchCountdownTimer> responder){
-        this.timeLeft = 300; //set a default of 5 minutes
+    public void setResponder(TimeoutResponder<SketchCountdownTimer> responder) {
         this.responder = responder;
     }
 
@@ -59,6 +70,22 @@ public class SketchCountdownTimer extends Observable {
         this.stopTimer();
         this.timeLeft = newTimeInSeconds;
         this.notifyObservers(); // notify a change in displayed time
+    }
+
+    public static void main(String[]args){
+        TimeoutResponder<SketchCountdownTimer> responder = new TimeoutResponder<SketchCountdownTimer>() {
+            @Override
+            public void respond_to_timeout(SketchCountdownTimer timer) {
+                System.out.println("Timeout happened!");
+            }
+        };
+        SketchCountdownTimer timer = new SketchCountdownTimer(5, responder);
+        timer.startTimer();
+        timer.setNewTime(10);
+        timer.startTimer();
+        timer.stopTimer();
+        timer.stopTimer(); // multipler stops do not cause errors.
+
     }
 
 }
