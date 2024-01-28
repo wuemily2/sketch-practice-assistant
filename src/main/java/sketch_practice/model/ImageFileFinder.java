@@ -91,14 +91,17 @@ public class ImageFileFinder extends Observable {
         }
         return imageFiles;
     }
+    public ArrayList<File> getAllImageFilesAsArrayList(int depth){
+        HashSet<File> allImageFiles = new HashSet<>();
+        allImageFiles.addAll(this.looseImages);
+        allImageFiles.addAll(getImageFilesUpToDepth(this.imageDirectories, depth));
+        return new ArrayList<File>(allImageFiles);
+    }
 
     //Sort through all the image files and return the necessary list.
     // May want to save a memo if, for some reason, this has to be done multiple times and takes too long
     public ArrayList<File> getAllImageFilesAsArrayList(){
-        HashSet<File> allImageFiles = new HashSet<>();
-        allImageFiles.addAll(this.looseImages);
-        allImageFiles.addAll(getImageFilesUpToDepth(this.imageDirectories));
-        return new ArrayList<File>(allImageFiles);
+        return getAllImageFilesAsArrayList(defaultSearchDepth);
     }
 
     public static void main(String[] args){
