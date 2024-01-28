@@ -3,13 +3,10 @@ package sketch_practice.controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.DirectoryChooser;
-import sketch_practice.SketchPractice;
 import sketch_practice.model.ImageCycler;
 import sketch_practice.model.ImageFileFinder;
-import sketch_practice.model.SketchCountdownTimer;
+import sketch_practice.model.CountdownTimer;
 import sketch_practice.util.CyclerCommand;
-import sketch_practice.util.Observable;
-import sketch_practice.util.Observer;
 import sketch_practice.view.SketchPracticeGUI;
 
 import java.io.File;
@@ -24,8 +21,8 @@ It does so either in response to updates from a timer (which I will consider par
 which can also change with controller input - start, stop, rewrite) or from users clicking buttons on the view (which
 will call the controller to do something).
  */
-public class CyclerController implements TimeoutResponder<SketchCountdownTimer> { //Todo: change from object to timer class
-    private SketchCountdownTimer timer;
+public class CyclerController implements TimeoutResponder<CountdownTimer> { //Todo: change from object to timer class
+    private CountdownTimer timer;
     private int sketchTime = 300;
     private ImageFileFinder fileFinder;
     private ImageCycler cycler; //get output from fileFinder
@@ -34,7 +31,7 @@ public class CyclerController implements TimeoutResponder<SketchCountdownTimer> 
     //Let's do all relational attachments here, except for event handlers
     public CyclerController(SketchPracticeGUI view,
                             ImageFileFinder fileFinder,
-                            SketchCountdownTimer timer) {
+                            CountdownTimer timer) {
         this.fileFinder = fileFinder;
         this.timer = timer;
         this.timer.setResponder(this);// Set cycler controller to respond to a timeout
@@ -49,7 +46,7 @@ public class CyclerController implements TimeoutResponder<SketchCountdownTimer> 
     }
     public CyclerController(SketchPracticeGUI view,
                             ImageFileFinder fileFinder,
-                            SketchCountdownTimer timer,
+                            CountdownTimer timer,
                             int defaultTime) {
         this(view, fileFinder, timer);
         this.sketchTime = defaultTime;
@@ -220,7 +217,7 @@ public class CyclerController implements TimeoutResponder<SketchCountdownTimer> 
         return false;
     }
 
-    public void respond_to_timeout(SketchCountdownTimer timer){
+    public void respond_to_timeout(CountdownTimer timer){
         this.executeCyclerCommand(CyclerCommand.ADVANCE_NEXT);
     }
 }

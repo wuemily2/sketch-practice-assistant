@@ -1,6 +1,5 @@
 package sketch_practice.model;
 
-import javafx.application.Platform;
 import sketch_practice.controller.TimeoutResponder;
 import sketch_practice.util.Observable;
 import java.util.Timer;
@@ -9,29 +8,29 @@ import java.util.TimerTask;
 /*
 This timer is used as a simple countdown timer.
  */
-public class SketchCountdownTimer extends Observable {
+public class CountdownTimer extends Observable {
     Timer timer; //A timer object to subtract one from timeLeft every second
     private int timeLeft = 300; // Time left, in seconds, in the countdown
-    TimeoutResponder<SketchCountdownTimer> responder;
+    TimeoutResponder<CountdownTimer> responder;
 
-    public SketchCountdownTimer(){
+    public CountdownTimer(){
         this.responder = null;
     }
-    public SketchCountdownTimer(int seconds){
+    public CountdownTimer(int seconds){
         this();
         this.timeLeft = seconds;
     }
 
-    public SketchCountdownTimer(TimeoutResponder<SketchCountdownTimer> responder){
+    public CountdownTimer(TimeoutResponder<CountdownTimer> responder){
         this.responder = responder;
     }
 
-    public SketchCountdownTimer(int seconds, TimeoutResponder<SketchCountdownTimer> responder){
+    public CountdownTimer(int seconds, TimeoutResponder<CountdownTimer> responder){
         this.timeLeft = seconds;
         this.responder = responder;
     }
 
-    public void setResponder(TimeoutResponder<SketchCountdownTimer> responder) {
+    public void setResponder(TimeoutResponder<CountdownTimer> responder) {
         this.responder = responder;
     }
 
@@ -48,16 +47,16 @@ public class SketchCountdownTimer extends Observable {
         public void executeTimerTick(){
             //System.out.println("Executing tick.");
             //System.out.format("TimeLeft %d", timeLeft);
-            if (SketchCountdownTimer.this.timeLeft > 0) {
+            if (CountdownTimer.this.timeLeft > 0) {
 
-                SketchCountdownTimer.this.timeLeft--;
-                SketchCountdownTimer.this.notifyObservers();
+                CountdownTimer.this.timeLeft--;
+                CountdownTimer.this.notifyObservers();
             }
-            if(SketchCountdownTimer.this.timeLeft <= 0){
+            if(CountdownTimer.this.timeLeft <= 0){
                 if(responder != null) {
-                    SketchCountdownTimer.this.responder.respond_to_timeout(SketchCountdownTimer.this);
+                    CountdownTimer.this.responder.respond_to_timeout(CountdownTimer.this);
                 }
-                SketchCountdownTimer.this.stopTimer();// Stop the timer at 0
+                CountdownTimer.this.stopTimer();// Stop the timer at 0
             }
         }
         public void run(){
@@ -81,13 +80,13 @@ public class SketchCountdownTimer extends Observable {
     }
 
     public static void main(String[]args){
-        TimeoutResponder<SketchCountdownTimer> responder = new TimeoutResponder<SketchCountdownTimer>() {
+        TimeoutResponder<CountdownTimer> responder = new TimeoutResponder<CountdownTimer>() {
             @Override
-            public void respond_to_timeout(SketchCountdownTimer timer) {
+            public void respond_to_timeout(CountdownTimer timer) {
                 System.out.println("Timeout happened!");
             }
         };
-        SketchCountdownTimer timer = new SketchCountdownTimer(5, responder);
+        CountdownTimer timer = new CountdownTimer(5, responder);
         timer.startTimer();
         timer.setNewTime(10);
         timer.startTimer();

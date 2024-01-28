@@ -7,7 +7,7 @@ import java.util.Timer;
 
 
 //Extension of SketchCountdownTimer to run on specifically the JavaFX application thread
-public class JavaFXCountdownTimer extends SketchCountdownTimer {
+public class JavaFXCountdownTimer extends CountdownTimer {
     public JavaFXCountdownTimer(){
         super();
     }
@@ -15,11 +15,11 @@ public class JavaFXCountdownTimer extends SketchCountdownTimer {
         super(seconds);
     }
 
-    public JavaFXCountdownTimer(TimeoutResponder<SketchCountdownTimer> responder){
+    public JavaFXCountdownTimer(TimeoutResponder<CountdownTimer> responder){
         super(responder);
     }
 
-    public JavaFXCountdownTimer(int seconds, TimeoutResponder<SketchCountdownTimer> responder){
+    public JavaFXCountdownTimer(int seconds, TimeoutResponder<CountdownTimer> responder){
         super(seconds, responder);
     }
     class JavaFXTickingTask extends TickingTask{ // Should be scheduled to run every second
