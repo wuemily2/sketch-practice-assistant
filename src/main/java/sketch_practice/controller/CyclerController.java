@@ -7,6 +7,7 @@ import sketch_practice.model.ImageCycler;
 import sketch_practice.model.ImageFileFinder;
 import sketch_practice.model.CountdownTimer;
 import sketch_practice.util.CyclerCommand;
+import sketch_practice.util.Observer;
 import sketch_practice.view.SketchPracticeGUI;
 
 import java.io.File;
@@ -21,35 +22,34 @@ It does so either in response to updates from a timer (which I will consider par
 which can also change with controller input - start, stop, rewrite) or from users clicking buttons on the view (which
 will call the controller to do something).
  */
+
+// Cycler Controller will have no knowledge of the essentially view + controller (event handler) gui component.
 public class CyclerController implements TimeoutResponder<CountdownTimer> { //Todo: change from object to timer class
     private CountdownTimer timer;
     private int sketchTime = 300;
     private ImageFileFinder fileFinder;
-    private ImageCycler cycler; //get output from fileFinder
-    private SketchPracticeGUI view;
+    private ImageCycler cycler = null; //get output from fileFinder
 
-    //Let's do all relational attachments here, except for event handlers
-    public CyclerController(SketchPracticeGUI view,
-                            ImageFileFinder fileFinder,
+    //Need to attach view outside of this.
+    public CyclerController(ImageFileFinder fileFinder,
                             CountdownTimer timer) {
         this.fileFinder = fileFinder;
         this.timer = timer;
         this.timer.setResponder(this);// Set cycler controller to respond to a timeout
-        this.view = view;
-        // Add section where controller puts its event handlers onto exposed view action gui
-        //TODO: implement here
-        // ACTUALLY maybe we should hook these up outside to reduce coupling.
-
-        // Have view observe these model objects
-        this.fileFinder.attach(view);
-        this.timer.attach(view);
     }
-    public CyclerController(SketchPracticeGUI view,
-                            ImageFileFinder fileFinder,
+    public CyclerController(ImageFileFinder fileFinder,
                             CountdownTimer timer,
                             int defaultTime) {
-        this(view, fileFinder, timer);
+        this(fileFinder, timer);
         this.sketchTime = defaultTime;
+    }
+    // Useful for attaching view. The use of Hashset prevents duplicates probably
+    public void attachObserverToModel(Observer o){
+        this.fileFinder.attach(o);
+        this.timer.attach(o);
+        if(cycler != null){
+            this.cycler.attach(o);
+        }
     }
 
     public void addFileObject(File fileObject){
@@ -64,6 +64,7 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
         this.fileFinder.removeFileObject(fileObject);
     }
 
+    // Class for basic cycler events
     public abstract class CyclerEventHandler implements EventHandler<ActionEvent> {
         CyclerController cc = CyclerController.this;
     }
@@ -96,74 +97,24 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
         }
     }
 
-    public class AddDirectoryEventHandler extends CyclerEventHandler{
-        //TODO figure out how to remove stuff later... via gui
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            DirectoryChooser directoryChooser = new DirectoryChooser(); //May need to use Jfilechooser
-            //View must expose the stage for this...
-            File selectedDirectory = directoryChooser.showDialog(cc.view.getStage());
-            if (selectedDirectory != null) {
-                cc.addFileObject(selectedDirectory);
-            }
-        }
-    }
-
-    // If we attach this to some kind of button... it might work???
-    public class RemoveFileObjectEventHandler extends CyclerEventHandler{
-        File targetFile;
-
-        public RemoveFileObjectEventHandler (File targetFile){
-            this.targetFile = targetFile;
-        }
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            cc.removeFileObject(this.targetFile);
-        }
-    }
-    private boolean prepSession(){
+    private boolean prepSession(Observer o){
         ArrayList<File> allImages = this.fileFinder.getAllImageFilesAsArrayList();
         if(!allImages.isEmpty()){
             this.cycler = new ImageCycler(this.fileFinder.getAllImageFilesAsArrayList());
-            this.cycler.attach(this.view);// Have view listen to cycler changes
-            //TODO add a line here to set initial image of view maybe?
+            this.cycler.attach(o);// Have something listen on the cycler changes.
             return true;
         }
         return false;
     }
-    public class StartSessionEventHandler extends CyclerEventHandler{
-        //Switch scenes and start cycling through images
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            if(cc.prepSession()){
-                // default is false so it sets to true and notifies view that it is visible
-                this.cc.cycler.toggleVisibility();// TODO: if we set an initial image in prep, this isn't needed
-                this.cc.view.switchView();// TODO change if view implementation changes
-                this.cc.startCountDownTimer(); // start timer.
-            }else{
-                //TODO: figure out how to change view text to say image files are empty!
-            }
-
+    private boolean startSession(Observer o){
+        if(this.prepSession(o)){
+            // default is false so it sets to true and notifies view that it is visible
+            this.cycler.toggleVisibility();// TODO: if we set an initial image in prep, this isn't needed
+            this.startCountDownTimer(); // start timer.
+            return true;
         }
+        return false;
     }
-
-    /*public static synchronized CyclerController getInstance(ImageFileFinder fileFinder,
-                                                            SketchCountdownTimer timer) {
-        if (instance == null)
-            instance = new CyclerController();
-
-        instance.fileFinder = fileFinder;
-        instance.timer = timer;
-
-        return instance;
-    }*/
-
-    /*public static synchronized CyclerController getInstance() {
-        if (instance == null)
-            instance = new CyclerController();
-
-        return instance;
-    }*/
 
     // Set a new countdown timer
     public void setCountDownTimer(int seconds){
@@ -172,28 +123,12 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
             this.timer.setNewTime(seconds);
         }
     }
-    /*public SketchCountdownTimer setCountdownTimer(int seconds){
-        this.sketchTime = seconds;
-        if(this.timer != null){
-            this.timer.setNewTime(seconds);
-        }else{
-            this.timer = new SketchCountdownTimer(seconds, this);
-            //this.timer.attach(view); //TODO: check if maybe we want to attach somewhere else.
-        }
-        return this.timer; //return a reference to this timer, used if needed
-    }*/
 
     public void startCountDownTimer(){
         if(this.timer != null){
             this.timer.setNewTime(sketchTime);
             this.timer.startTimer();
         }
-    }
-
-    //FileFinder
-    // Set a new filefinder object.
-    public void setFileFinder(ImageFileFinder fileFinder){
-        this.fileFinder = fileFinder;
     }
 
     public boolean executeCyclerCommand(CyclerCommand command){

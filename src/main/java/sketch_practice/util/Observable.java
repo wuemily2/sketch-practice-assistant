@@ -1,9 +1,10 @@
 package sketch_practice.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Observable {
-    private ArrayList<Observer> observers = new ArrayList<Observer>();
+    private HashSet<Observer> observers = new HashSet<>(); // prevent duplicate observers.
     public void attach(Observer o) {
         observers.add(o);
     }
