@@ -8,10 +8,10 @@ import sketch_practice.controller.CyclerController;
 
 import java.io.File;
 
-public class addDirectoryEventHandler implements EventHandler<ActionEvent> {
+public class AddDirectoryEventHandler implements EventHandler<ActionEvent> {
     private final CyclerController cc;
     private final Stage stage; // The stage we want to freeze for opening a directory choosing dialog.
-    public addDirectoryEventHandler(CyclerController cc, Stage stage){
+    public AddDirectoryEventHandler(CyclerController cc, Stage stage){
         this.cc = cc;
         this.stage = stage;
     }
@@ -19,6 +19,7 @@ public class addDirectoryEventHandler implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser(); //May need to use Jfilechooser
+        directoryChooser.setTitle("Select a directory to add images from");
         File selectedDirectory = directoryChooser.showDialog(this.stage);
         if (selectedDirectory != null) {
             this.cc.addFileObject(selectedDirectory);

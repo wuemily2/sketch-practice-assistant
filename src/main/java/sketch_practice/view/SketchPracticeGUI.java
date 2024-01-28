@@ -1,10 +1,11 @@
 package sketch_practice.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import sketch_practice.controller.CyclerController;
@@ -13,6 +14,7 @@ import sketch_practice.util.Observable;
 import sketch_practice.util.Observer;
 import javafx.stage.Stage;
 
+import java.io.File;
 
 
 public class SketchPracticeGUI implements Observer {
@@ -30,21 +32,67 @@ public class SketchPracticeGUI implements Observer {
 
     class SettingsGUI extends Pane {
         //private Button removalButton = new Button("Remove directory.");
+        ObservableList<File> fileObjectEntries; // Need to expose to update later
         public SettingsGUI (){ // build self
             // Make children first and then put into node list of VBOX
+            //TODO: separate components into individual files for readability
+
+            //================== Setup for adding images ===============
+            //Label for indicating that you can add files
+            Label label = new Label("Add Images:");
 
             //Add a button for Adding a Directory
             Button addDirectoryButton = new Button("Add Dir");
-            //Add a button for adding a loose Image file
+            Tooltip addDirImagesTooltip = new Tooltip(
+                    "Select directories to add images from, up to a specified depth.");
+            addDirectoryButton.setTooltip(addDirImagesTooltip);
+            addDirectoryButton.setOnAction(new AddDirectoryEventHandler(controller, stage));
 
+            //Add a button for adding loose image files
+            Button addFilesButton = new Button("Add individual images");
+            addFilesButton.setOnAction(new AddFilesEventHandler(controller, stage));
+
+            // Add a selection for removal
+            this.fileObjectEntries = FXCollections.observableArrayList();
+            ListView<File> fileList = new ListView<>(this.fileObjectEntries);
             //Add a button for removing a file based on selection
+            Button removeFileButton = new Button("Remove Selected");
+            removeFileButton.setOnAction(actionEvent -> {
+                File selectedFile = fileList.getSelectionModel().getSelectedItem();
+                if (selectedFile != null) {
+                    SketchPracticeGUI.this.controller.removeFileObject(selectedFile);
+                }
+            });
 
-            //TODO: add a button to set maxDepth
+            // ================= Max Depth Input =======================
+            //TextField Section for setting MaxDepth
+            Tooltip depthTip = new Tooltip(
+                    "Enter a number to represent the maximum depth to search for image files.");
+            Label depthLabel = new Label("Max Depth:");
+            depthLabel.setTooltip(depthTip);
+            TextField depthField = new TextField("0");
+            depthField.setTooltip(depthTip);
+            depthField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    depthField.setText(newValue.replaceAll("[\\D]", ""));
+                }
+            });
 
-            //TODO: figure out how to operate the selection
+            //================== Time Input ==========================
+            // Radio Button Selection
+            //TODO:
+            TimeSelectionRadioButtonGroup radioList = new TimeSelectionRadioButtonGroup();
 
-            //TODO: Add some way to select a default time or through text, and ensure it's numerical.
-
+            // -> Custom input for time
+            Label customTime = new Label("Custom Time:");
+            TextField timeField = new TextField("Time (in seconds)");
+            Tooltip timeSettingTooltip = new Tooltip("Type the desired time here in seconds");
+            timeField.textProperty().addListener((observable, oldValue, newValue) -> {
+                radioList.selectCustomToggle(); // Switch to custom selection
+                if (!newValue.matches("\\d*")) {
+                    depthField.setText(newValue.replaceAll("[\\D]", ""));
+                }
+            });
             //
 
             // Add a button to start cycling through images
@@ -55,11 +103,10 @@ public class SketchPracticeGUI implements Observer {
                     SketchPracticeGUI.this.switchView();
                 }
             });
-            this.getChildren().add(startButton);
-
+            //this.getChildren().add(startButton);
 
             //Create VBOX
-            VBox settingsList = new VBox(startButton); // TODO add rest of the node list here
+            VBox settingsList = new VBox(radioList, startButton); // TODO add rest of the node list here
 
             this.getChildren().add(settingsList);
         }
