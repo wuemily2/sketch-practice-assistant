@@ -31,12 +31,13 @@ public class CyclerController implements TimeoutResponder<SketchCountdownTimer> 
     private ImageCycler cycler; //get output from fileFinder
     private SketchPracticeGUI view;
 
-    //Let's do all the observer attachments in here?
+    //Let's do all relational attachments here, except for event handlers
     public CyclerController(SketchPracticeGUI view,
                             ImageFileFinder fileFinder,
                             SketchCountdownTimer timer) {
         this.fileFinder = fileFinder;
         this.timer = timer;
+        this.timer.setResponder(this);// Set cycler controller to respond to a timeout
         this.view = view;
         // Add section where controller puts its event handlers onto exposed view action gui
         //TODO: implement here
