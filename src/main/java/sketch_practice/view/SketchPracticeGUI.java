@@ -26,31 +26,42 @@ public class SketchPracticeGUI implements Observer {
 
     //
     public Label timeLabel = new Label("TimeLabel");
-    public Label userMessageLabel = new Label("Hello!");
+    public Label userMessageLabel = new Label("Hello!"); // TODO - change this to a popup.
 
     class SettingsGUI extends Pane {
-
-        private EventHandler<ActionEvent> removal_handler;
-        private Button removalButton = new Button("Remove directory.");
+        //private Button removalButton = new Button("Remove directory.");
         public SettingsGUI (){ // build self
+            // Make children first and then put into node list of VBOX
 
-            // TODO Remove test
-            Button switchbutton = new Button("SettingsGui");
-            switchbutton.setOnAction(new EventHandler<ActionEvent>() {
+            //Add a button for Adding a Directory
+            Button addDirectoryButton = new Button("Add Dir");
+            //Add a button for adding a loose Image file
+
+            //Add a button for removing a file based on selection
+
+            //TODO: add a button to set maxDepth
+
+            //TODO: figure out how to operate the selection
+
+            //TODO: Add some way to select a default time or through text, and ensure it's numerical.
+
+            //
+
+            // Add a button to start cycling through images
+            Button startButton = new Button("Start!");
+            startButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
                     SketchPracticeGUI.this.switchView();
                 }
             });
-            this.getChildren().add(switchbutton);
-            //
+            this.getChildren().add(startButton);
 
-            // Make children first and then put into node list of VBOX
 
             //Create VBOX
-            //VBox settingsList = new VBox();
+            VBox settingsList = new VBox(startButton); // TODO add rest of the node list here
 
-            //this.getChildren().add(settingsList);
+            this.getChildren().add(settingsList);
         }
 
 
