@@ -7,4 +7,7 @@ module sketch_practice{
     //opens sketch_practice to javafx.fxml;
     exports sketch_practice;
     exports sketch_practice.model;
+    exports sketch_practice.view;
+    exports sketch_practice.controller;
+    exports sketch_practice.util;
 }
