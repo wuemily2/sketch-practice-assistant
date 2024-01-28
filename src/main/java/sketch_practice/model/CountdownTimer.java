@@ -38,9 +38,8 @@ public class CountdownTimer extends Observable {
         return this.timeLeft;
     }
 
-    // TODO: seconds to two digit placements
     public String getTimeLeftAsString() {// just minutes and seconds cuz you shouldn't use this if you're hitting 1 hr
-        return String.format("%d:%d", this.timeLeft / 60, this.timeLeft % 60 );
+        return String.format("%d:%02d", this.timeLeft / 60, this.timeLeft % 60 );
     }
 
     class TickingTask extends TimerTask { // Should be scheduled to run every second
