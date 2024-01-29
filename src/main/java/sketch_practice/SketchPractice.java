@@ -19,13 +19,15 @@ import sketch_practice.model.JavaFXCountdownTimer;
 import sketch_practice.model.CountdownTimer;
 import sketch_practice.view.SketchPracticeGUI;
 
+import java.io.IOException;
+
 public class SketchPractice extends Application {
     public static void main(String [] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
         // Give the Application a name in the top bar
         stage.setTitle("Sketch Practice Assistant");
         //Ensure stage closes properly

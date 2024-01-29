@@ -4,7 +4,7 @@ module sketch_practice{
     requires java.desktop;
 
 
-    //opens sketch_practice to javafx.fxml;
+    opens sketch_practice.view to javafx.fxml;
     exports sketch_practice;
     exports sketch_practice.model;
     exports sketch_practice.view;

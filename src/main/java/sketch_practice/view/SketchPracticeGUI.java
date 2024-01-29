@@ -1,11 +1,12 @@
 package sketch_practice.view;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import sketch_practice.controller.CyclerController;
@@ -15,7 +16,7 @@ import sketch_practice.util.Observer;
 import javafx.stage.Stage;
 
 import java.io.File;
-
+import java.io.IOException;
 
 public class SketchPracticeGUI implements Observer {
     private Stage stage;
@@ -33,13 +34,13 @@ public class SketchPracticeGUI implements Observer {
     class SettingsGUI extends Pane {
         //private Button removalButton = new Button("Remove directory.");
         ObservableList<File> fileObjectEntries; // Need to expose to update later
-        public SettingsGUI (){ // build self
+        public SettingsGUI () throws IOException { // build self
             // Make children first and then put into node list of VBOX
             //TODO: separate components into individual files for readability
 
             //================== Setup for adding images ===============
             //Label for indicating that you can add files
-            Label label = new Label("Add Images:");
+            /*Label label = new Label("Add Images:");
 
             //Add a button for Adding a Directory
             Button addDirectoryButton = new Button("Add Dir");
@@ -92,21 +93,29 @@ public class SketchPracticeGUI implements Observer {
                 if (!newValue.matches("\\d*")) {
                     depthField.setText(newValue.replaceAll("[\\D]", ""));
                 }
-            });
-            //
+            });*/
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SettingsGUI.fxml"));
+            SettingsGUIFXMLController settingsController = new SettingsGUIFXMLController(controller);
+            fxmlLoader.setController(settingsController);
+            HBox settingsGUIComponent = fxmlLoader.load();
 
-            // Add a button to start cycling through images
+            // Add error message field to go with below button.
+            Label userMessage = new Label("Select Images to rotate through \n+ session time, and then press start");
+            // Add a button to start cycling through images. Do this outside of the fxml file
             Button startButton = new Button("Start!");
             startButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
+
                     SketchPracticeGUI.this.switchView();
                 }
             });
+            HBox bottomBar = new HBox(userMessage, startButton);
             //this.getChildren().add(startButton);
 
             //Create VBOX
-            VBox settingsList = new VBox(radioList, startButton); // TODO add rest of the node list here
+            //VBox settingsList = new VBox(radioList, startButton); // TODO add rest of the node list here
+            VBox settingsList = new VBox(settingsGUIComponent, bottomBar);
 
             this.getChildren().add(settingsList);
         }
@@ -128,7 +137,7 @@ public class SketchPracticeGUI implements Observer {
     }
 
     // Take in a stage created by the application on the JavaFX thread; Make sure to instantiate on same thread
-    public SketchPracticeGUI(Stage applicationStage, CyclerController controller){
+    public SketchPracticeGUI(Stage applicationStage, CyclerController controller) throws IOException {
         this.controller = controller;
         this.stage = applicationStage;
         //TODO - implement the following guis
