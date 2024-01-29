@@ -63,7 +63,10 @@ public class ImageCycler extends Observable {
         return this.currentImage;
     }
 
-    public Image get_current_image(){
+    public File get_current_image(){
+        return this.imageFiles.get(this.currentImage);
+    }
+    /*public Image get_current_image(){
         try{
             File imageFile = this.imageFiles.get(this.currentImage);
             Image image = new Image(new FileInputStream(imageFile));
@@ -71,6 +74,6 @@ public class ImageCycler extends Observable {
         } catch (Exception e){
             return null;
         }
-    }
+    }*/
 
 }

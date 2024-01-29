@@ -19,7 +19,11 @@ import sketch_practice.util.Observable;
 import sketch_practice.util.Observer;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.File;
+import java.util.Objects;
 
 public class SketchPracticeGUI implements Observer {
     private Stage stage;
@@ -145,15 +149,19 @@ public class SketchPracticeGUI implements Observer {
         }else if(o instanceof ImageFileFinder){
             ImageFileFinder finder = (ImageFileFinder) o;
             this.settingsGUI.settingsController.modifyFileObjectEntries(finder.getCurrentSelection());
-        }else if(o instanceof ImageCycler){//TODO add more error checking
+        }else if(o instanceof ImageCycler){
             ImageCycler cycler = (ImageCycler) o;
-            Image newImage = cycler.get_current_image();
-            if(newImage == null) {
-                this.controller.executeCyclerCommand(CyclerCommand.ADVANCE_NEXT);//TODO: FIX - This won't work if we wanna go backwards.
-            }else{
-                this.cyclingGUI.cyclingController.setImageToDisplay(newImage);
+            File newImage = cycler.get_current_image();
+            try{
+                // TODO - check if our file format checks are robust enough
+                FileInputStream imageInput = new FileInputStream(newImage);
+                Image image = new Image(imageInput);
+                this.cyclingGUI.cyclingController.setImageToDisplay(image);
+                imageInput.close(); // Need to explicitly call close on input streams to save system resources.
+            }catch (Exception e){//For FileNotFound as well as any unforeseen exceptions
+                // Just erase the image. for now. We'll add supporting text later.
+                this.cyclingGUI.cyclingController.setImageToDisplay(null);
             }
-
         }
 
     }

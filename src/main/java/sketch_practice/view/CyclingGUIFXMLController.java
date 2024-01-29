@@ -30,9 +30,7 @@ public class CyclingGUIFXMLController {
     }
 
     public void setImageToDisplay(Image image){
-        if(imageDisplay != null){
-            this.imageDisplay.setImage(image);
-        }
+        this.imageDisplay.setImage(image);
     }
 
     public void setTimerDisplay(String displayText){
