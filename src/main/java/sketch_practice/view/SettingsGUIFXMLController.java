@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
@@ -63,6 +64,8 @@ public class SettingsGUIFXMLController {
         //Initialize the list for ListView
         assert fileList != null : "Could not find the ListView for files with fx-id: fileList";
         fileList.setItems(fileObjectEntries);
+        fileList.setCellFactory(p-> new FileFormatCell()); // Changes display of listed entries.
+        fileList.setButtonCell(new FileFormatCell()); // Sets selected cell to be displayed as a file format cell
 
         assert customDepthField != null : "Could not find customDepthField";
         customDepthField.textProperty().addListener((observable, oldValue, newValue) -> {
