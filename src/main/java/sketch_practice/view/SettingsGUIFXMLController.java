@@ -63,7 +63,6 @@ public class SettingsGUIFXMLController {
         //Initialize the list for ListView
         assert fileList != null : "Could not find the ListView for files with fx-id: fileList";
         fileList.setItems(fileObjectEntries);
-        //fileList.setItems(fileObjectEntries);
 
         assert customDepthField != null : "Could not find customDepthField";
         customDepthField.textProperty().addListener((observable, oldValue, newValue) -> {
