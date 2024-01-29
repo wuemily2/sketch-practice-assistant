@@ -12,7 +12,7 @@ public class ImageCycler extends Observable {
 
     private ArrayList<File> imageFiles; // assume received list of image files is exactly images.
     private int currentImage; // track index of the current image
-    private boolean visible = false;
+    private boolean visible = false; // TODO: visibility toggle has been moved to the view; change whatever relies on this notify observers to something else
 
     // Take in a list of imagefiles to cycle through
     public ImageCycler(ArrayList<File> imageFiles){ // We should only pass in non zero array in use
