@@ -173,7 +173,6 @@ public class SketchPracticeGUI implements Observer {
             CountdownTimer timer = (CountdownTimer) o;
             //TODO: Add code to change on screen timer value
         }else if(o instanceof ImageFileFinder){
-            System.out.println("Here");
             ImageFileFinder finder = (ImageFileFinder) o;
             this.settingsGUI.settingsController.modifyFileObjectEntries(finder.getCurrentSelection());
         }
