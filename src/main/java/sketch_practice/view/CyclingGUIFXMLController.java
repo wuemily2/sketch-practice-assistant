@@ -54,6 +54,10 @@ public class CyclingGUIFXMLController {
     @FXML
     public void onNextButtonPressed(){
         cc.executeCyclerCommand(CyclerCommand.ADVANCE_NEXT);
+        //Ensure the next image is visible because how tf are you going to draw something you can't see???
+        if(!imageDisplay.isVisible()){
+            imageDisplay.setVisible(true);
+        }
     }
 
     @FXML
