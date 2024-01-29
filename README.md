@@ -7,5 +7,17 @@ A simple wireframe has been created for the concept in Figma, see [here](https:/
 I can't find an equivalent app online that has the features I would like as a practicing artist, so I decided to develop this app on my own.
 
 ## Is this app completed yet?
-No
+So far, minimum functionality has been completed. 
+What needs to be done next:
+- Fix GUI to scale with screen size and implement styles with CSS
+- Address todos scattered across files
+- Add more robust error checking
+- cleanup code
+- (If possible) refactor code to be cleaner and more extensible
+
+## What version of Java and JavaFX is used?
+OpenJDK 21 and OpenJFX 21
+
+## How would I set this up on my own computer and try to run it?
+Coming soon...
 
