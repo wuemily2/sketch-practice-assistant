@@ -20,6 +20,7 @@ import sketch_practice.model.ImageFileFinder;
 import sketch_practice.model.JavaFXCountdownTimer;
 import sketch_practice.model.CountdownTimer;
 import sketch_practice.view.SketchPracticeGUI;
+import sketch_practice.view.setup_util.FormatStage;
 
 import java.io.IOException;
 
@@ -37,8 +38,8 @@ public class SketchPractice extends Application {
             Platform.exit();//Terminate JavaFX Application Thread
             System.exit(0); // Close Java process
         });
-        //Set default stage size
-
+        //Set default stage size using setup file
+        FormatStage.formatStage(stage);
 
         //Create model components
         ImageFileFinder fileFinder = new ImageFileFinder();
