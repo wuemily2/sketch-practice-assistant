@@ -6,15 +6,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import sketch_practice.controller.CyclerController;
 import sketch_practice.model.CountdownTimer;
+import sketch_practice.model.ImageFileFinder;
 import sketch_practice.util.Observable;
 import sketch_practice.util.Observer;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,7 +37,7 @@ public class SketchPracticeGUI implements Observer {
 
     class SettingsGUI extends Pane {
         //private Button removalButton = new Button("Remove directory.");
-        ObservableList<File> fileObjectEntries; // Need to expose to update later
+        SettingsGUIFXMLController settingsController;
         public SettingsGUI () throws IOException { // build self
             // Make children first and then put into node list of VBOX
             //TODO: separate components into individual files for readability
@@ -95,7 +99,7 @@ public class SketchPracticeGUI implements Observer {
                 }
             });*/
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SettingsGUI.fxml"));
-            SettingsGUIFXMLController settingsController = new SettingsGUIFXMLController(controller);
+            this.settingsController = new SettingsGUIFXMLController(controller);
             fxmlLoader.setController(settingsController);
             HBox settingsGUIComponent = fxmlLoader.load();
 
@@ -106,7 +110,7 @@ public class SketchPracticeGUI implements Observer {
             startButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-
+                    System.out.println(settingsController.getDepth()); //WORKS!
                     SketchPracticeGUI.this.switchView();
                 }
             });
@@ -167,7 +171,11 @@ public class SketchPracticeGUI implements Observer {
     public void update(Observable o){
         if(o instanceof CountdownTimer){
             CountdownTimer timer = (CountdownTimer) o;
-            timeLabel.setText(timer.getTimeLeftAsString());
+            //TODO: Add code to change on screen timer value
+        }else if(o instanceof ImageFileFinder){
+            System.out.println("Here");
+            ImageFileFinder finder = (ImageFileFinder) o;
+            this.settingsGUI.settingsController.modifyFileObjectEntries(finder.getCurrentSelection());
         }
 
     }

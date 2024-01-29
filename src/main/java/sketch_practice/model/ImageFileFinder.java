@@ -32,8 +32,10 @@ public class ImageFileFinder extends Observable {
     public void removeFileObject(File file){
         if(file.isDirectory()){
             this.imageDirectories.remove(file);
+            this.notifyObservers();
         }else{
             this.looseImages.remove(file);
+            this.notifyObservers();
         }
     }
 
@@ -49,6 +51,13 @@ public class ImageFileFinder extends Observable {
 
     public HashSet<File> getLooseFiles(){
         return this.looseImages;
+    }
+
+    public ArrayList<File> getCurrentSelection(){
+        ArrayList<File> files = new ArrayList<>();
+        files.addAll(this.imageDirectories);
+        files.addAll(this.looseImages);
+        return files;
     }
 
     public static HashSet<File> getImageFilesUpToDepth(File directory){

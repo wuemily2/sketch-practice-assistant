@@ -53,15 +53,17 @@ public class SettingsGUIFXMLController {
     //Intended to be called when updating based on observing the Imagefilefinder,
     //When done so, refresh the list based on the hashset in Imagefilefinder.
     public void modifyFileObjectEntries(ArrayList<File> newFiles){// remove everything from list and add new
-        this.fileObjectEntries.removeAll();
+        this.fileObjectEntries.clear();
         this.fileObjectEntries.addAll(newFiles);
+        this.fileList.getSelectionModel().selectFirst();
     }
 
     @FXML
     public void initialize(){
         //Initialize the list for ListView
         assert fileList != null : "Could not find the ListView for files with fx-id: fileList";
-        fileList = new ComboBox<>(fileObjectEntries);
+        fileList.setItems(fileObjectEntries);
+        //fileList.setItems(fileObjectEntries);
 
         assert customDepthField != null : "Could not find customDepthField";
         customDepthField.textProperty().addListener((observable, oldValue, newValue) -> {
