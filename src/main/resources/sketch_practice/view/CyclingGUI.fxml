@@ -11,8 +11,9 @@
 <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"> <!--Radio button selection and custom field-->
     <StackPane>
         <VBox>
-            <Label text="Don't see an image? The image probably changed names or locations, or got deleted"/>
-            <Label text="Go back or press next to cycle to another image."/>
+            <Label text="Don't see an image but didn't toggle visibility?"/>
+            <Label text="The image probably changed names or locations, or got deleted"/>
+            <Label text="Go back or press next to cycle to another image, or check if you can toggle visibility."/>
         </VBox>
         <ImageView fx:id="imageDisplay" fitHeight="500" preserveRatio="true"/>
     </StackPane>
