@@ -39,65 +39,6 @@ public class SketchPracticeGUI implements Observer {
         //private Button removalButton = new Button("Remove directory.");
         SettingsGUIFXMLController settingsController;
         public SettingsGUI () throws IOException { // build self
-            // Make children first and then put into node list of VBOX
-            //TODO: separate components into individual files for readability
-
-            //================== Setup for adding images ===============
-            //Label for indicating that you can add files
-            /*Label label = new Label("Add Images:");
-
-            //Add a button for Adding a Directory
-            Button addDirectoryButton = new Button("Add Dir");
-            Tooltip addDirImagesTooltip = new Tooltip(
-                    "Select directories to add images from, up to a specified depth.");
-            addDirectoryButton.setTooltip(addDirImagesTooltip);
-            addDirectoryButton.setOnAction(new AddDirectoryEventHandler(controller, stage));
-
-            //Add a button for adding loose image files
-            Button addFilesButton = new Button("Add individual images");
-            addFilesButton.setOnAction(new AddFilesEventHandler(controller, stage));
-
-            // Add a selection for removal
-            this.fileObjectEntries = FXCollections.observableArrayList();
-            ListView<File> fileList = new ListView<>(this.fileObjectEntries);
-            //Add a button for removing a file based on selection
-            Button removeFileButton = new Button("Remove Selected");
-            removeFileButton.setOnAction(actionEvent -> {
-                File selectedFile = fileList.getSelectionModel().getSelectedItem();
-                if (selectedFile != null) {
-                    SketchPracticeGUI.this.controller.removeFileObject(selectedFile);
-                }
-            });
-
-            // ================= Max Depth Input =======================
-            //TextField Section for setting MaxDepth
-            Tooltip depthTip = new Tooltip(
-                    "Enter a number to represent the maximum depth to search for image files.");
-            Label depthLabel = new Label("Max Depth:");
-            depthLabel.setTooltip(depthTip);
-            TextField depthField = new TextField("0");
-            depthField.setTooltip(depthTip);
-            depthField.textProperty().addListener((observable, oldValue, newValue) -> {
-                if (!newValue.matches("\\d*")) {
-                    depthField.setText(newValue.replaceAll("[\\D]", ""));
-                }
-            });
-
-            //================== Time Input ==========================
-            // Radio Button Selection
-            //TODO:
-            TimeSelectionRadioButtonGroup radioList = new TimeSelectionRadioButtonGroup();
-
-            // -> Custom input for time
-            Label customTime = new Label("Custom Time:");
-            TextField timeField = new TextField("Time (in seconds)");
-            Tooltip timeSettingTooltip = new Tooltip("Type the desired time here in seconds");
-            timeField.textProperty().addListener((observable, oldValue, newValue) -> {
-                radioList.selectCustomToggle(); // Switch to custom selection
-                if (!newValue.matches("\\d*")) {
-                    depthField.setText(newValue.replaceAll("[\\D]", ""));
-                }
-            });*/
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SettingsGUI.fxml"));
             this.settingsController = new SettingsGUIFXMLController(controller);
             fxmlLoader.setController(settingsController);
