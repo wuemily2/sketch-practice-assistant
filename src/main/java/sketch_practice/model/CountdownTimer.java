@@ -90,7 +90,7 @@ public class CountdownTimer extends Observable {
         }
     }
 
-    public boolean getIfTimerisRunning(){
+    public boolean getIfTimerIsRunning(){
         return this.isTimerRunning;
     }
 
