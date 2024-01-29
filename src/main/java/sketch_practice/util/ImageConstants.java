@@ -1,5 +1,7 @@
 package sketch_practice.util;
 
+import javafx.stage.FileChooser;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -19,6 +21,17 @@ public final class ImageConstants {
         aggList.addAll(List.of(BMP_FILE_ENDINGS));
         return aggList;
     }
+    //TODO: Add a function to get
+    public static ArrayList<String> getAggregateEndingsListForExtensionFilter(){
+        ArrayList<String> rawEndings = getAggregateEndingsList();
+        ArrayList<String> agg = new ArrayList<>();
+        for(String string: rawEndings){
+            agg.add(String.format("*.%s", string));
+            agg.add(String.format("*.%s", string.toUpperCase()));
+        }
+        return agg;
+    }
+
     public static final FileFilter javaFXImageFileFilter = new FileFilter() {
         public boolean isValidJavaFXImageFile(File file){
             String fileName = file.getName();

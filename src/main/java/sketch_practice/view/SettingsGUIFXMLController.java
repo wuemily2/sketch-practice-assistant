@@ -99,7 +99,9 @@ public class SettingsGUIFXMLController {
         fileChooser.setTitle("Select image files");
         //Since we only want to select images, let's make a filter here
         FileChooser.ExtensionFilter imageExtensionFilter =
-                new FileChooser.ExtensionFilter("Images", ImageConstants.getAggregateEndingsList()); //TODO: Fix because this isn't working
+                new FileChooser.ExtensionFilter(
+                        "Images",
+                        ImageConstants.getAggregateEndingsListForExtensionFilter());
         fileChooser.getExtensionFilters().add(imageExtensionFilter);
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(((Node)event.getSource()).getScene().getWindow());
         if (selectedFiles != null) {
