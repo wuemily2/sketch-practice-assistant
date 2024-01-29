@@ -2,13 +2,11 @@ package sketch_practice.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.stage.DirectoryChooser;
 import sketch_practice.model.ImageCycler;
 import sketch_practice.model.ImageFileFinder;
 import sketch_practice.model.CountdownTimer;
 import sketch_practice.util.CyclerCommand;
 import sketch_practice.util.Observer;
-import sketch_practice.view.SketchPracticeGUI;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -64,39 +62,6 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
         this.fileFinder.removeFileObject(fileObject);
     }
 
-    // Class for basic cycler events
-    public abstract class CyclerEventHandler implements EventHandler<ActionEvent> {
-        CyclerController cc = CyclerController.this;
-    }
-
-    public class GoToNextImageEventHandler extends CyclerEventHandler{
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            cc.executeCyclerCommand(CyclerCommand.ADVANCE_NEXT);
-        }
-    }
-
-    public class GoToPreviousImageEventHandler extends CyclerEventHandler{
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            cc.executeCyclerCommand(CyclerCommand.GO_BACK);
-        }
-    }
-
-    public class PauseCyclerEventHandler extends CyclerEventHandler{
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            cc.executeCyclerCommand(CyclerCommand.PAUSE_CYCLER);
-        }
-    }
-
-    public class ContinueCyclerEventHandler extends CyclerEventHandler{
-        @Override
-        public void handle(ActionEvent actionEvent) {
-            cc.executeCyclerCommand(CyclerCommand.CONTINUE_CYCLER);
-        }
-    }
-
     private boolean prepSession(Observer o){
         ArrayList<File> allImages = this.fileFinder.getAllImageFilesAsArrayList();
         if(!allImages.isEmpty()){
@@ -119,19 +84,15 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
     // Set a new countdown timer
     public void setCountDownTimer(int seconds){
         this.sketchTime = seconds;
-        if(this.timer != null){
-            this.timer.setNewTime(seconds);
-        }
+        this.timer.setNewTime(seconds);
     }
 
     public void startCountDownTimer(){
-        if(this.timer != null){
-            this.timer.setNewTime(sketchTime);
-            this.timer.startTimer();
-        }
+        this.timer.setNewTime(sketchTime);
+        this.timer.startTimer();
     }
 
-    public boolean executeCyclerCommand(CyclerCommand command){
+    public void executeCyclerCommand(CyclerCommand command){
         if (cycler != null){
             switch (command) {
                 case ADVANCE_NEXT -> {
@@ -144,12 +105,9 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
                     timer.setNewTime(this.sketchTime);
                     timer.startTimer();
                 }
-                case PAUSE_CYCLER -> timer.stopTimer();
-                case CONTINUE_CYCLER -> timer.startTimer();
+                case TOGGLE_PAUSE_OR_PLAY -> timer.timerPlayToggle();
             }
-            return true;
         }
-        return false;
     }
 
     public void respond_to_timeout(CountdownTimer timer){

@@ -6,6 +6,6 @@ public enum CyclerCommand {
     // Go to the next image in the cycler, or the previous
     ADVANCE_NEXT, GO_BACK,
     // Pause the timer on the current image, or restart it
-    PAUSE_CYCLER, CONTINUE_CYCLER
+    TOGGLE_PAUSE_OR_PLAY
 
 }
