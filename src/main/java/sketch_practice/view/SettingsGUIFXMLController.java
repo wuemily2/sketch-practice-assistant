@@ -126,7 +126,7 @@ public class SettingsGUIFXMLController {
     public int getDepth(){
         assert initialized : "Calling non fxml method on fx-id components";
         if(!Objects.equals(customDepthField.getText(), "")){
-            return Integer.valueOf(customDepthField.getText());
+            return Integer.parseInt(customDepthField.getText());
         }
         return -1;
     }
@@ -140,10 +140,10 @@ public class SettingsGUIFXMLController {
         return selectedTime;
     }
 
-    public int getCustomTime(){
+    private int getCustomTime(){
         assert initialized : "Calling non fxml method on fx-id components";
         if(!Objects.equals(customTimeField.getText(), "")){
-            return Integer.valueOf(customTimeField.getText());
+            return Integer.parseInt(customTimeField.getText());
         }
         return -1;
     }

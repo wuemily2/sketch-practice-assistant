@@ -50,6 +50,7 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
         }
     }
 
+
     public void addFileObject(File fileObject){
         //Add an image or directory to keep track of in fileFinder
         //fileFinder already has error checking
@@ -71,7 +72,7 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
         }
         return false;
     }
-    private boolean startSession(Observer o){
+    public boolean startSession(Observer o){
         if(this.prepSession(o)){
             // default is false so it sets to true and notifies view that it is visible
             this.cycler.toggleVisibility();// TODO: if we set an initial image in prep, this isn't needed
@@ -81,6 +82,12 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
         return false;
     }
 
+    //modify imagefilefinder
+    public void setImageFileFinderSearchDepth(int depth){
+        if(depth > 0){
+            this.fileFinder.setDefaultSearchDepth(depth);
+        }
+    }
     // Set a new countdown timer
     public void setCountDownTimer(int seconds){
         this.sketchTime = seconds;
@@ -106,6 +113,7 @@ public class CyclerController implements TimeoutResponder<CountdownTimer> { //To
                     timer.startTimer();
                 }
                 case TOGGLE_PAUSE_OR_PLAY -> timer.timerPlayToggle();
+                case EXIT_CYCLING -> timer.stopTimer();
             }
         }
     }

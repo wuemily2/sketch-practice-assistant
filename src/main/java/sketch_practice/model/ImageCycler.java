@@ -1,8 +1,10 @@
 package sketch_practice.model;
 
+import javafx.scene.image.Image;
 import sketch_practice.util.Observable;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,7 +15,7 @@ public class ImageCycler extends Observable {
     private boolean visible = false;
 
     // Take in a list of imagefiles to cycle through
-    public ImageCycler(ArrayList<File> imageFiles){
+    public ImageCycler(ArrayList<File> imageFiles){ // We should only pass in non zero array in use
         this.imageFiles = imageFiles;
         if (imageFiles != null && !imageFiles.isEmpty()){
             Collections.shuffle(this.imageFiles);
@@ -61,8 +63,14 @@ public class ImageCycler extends Observable {
         return this.currentImage;
     }
 
-    public File get_current_image(){
-        return this.imageFiles.get(this.currentImage); // TODO: may need to add out of bounds error checking?
+    public Image get_current_image(){
+        try{
+            File imageFile = this.imageFiles.get(this.currentImage);
+            Image image = new Image(new FileInputStream(imageFile));
+            return image;
+        } catch (Exception e){
+            return null;
+        }
     }
 
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.image.ImageView?>
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"> <!--Radio button selection and custom field-->
+    <ImageView fx:id="imageDisplay" fitHeight="500" preserveRatio="true"/>
+    <HBox>
+        <Button text="Previous" onAction="#onPreviousButtonPressed"/>
+        <Button fx:id="playToggle" text="Pause" onAction="#onPauseOrPlayPressed"/>
+        <Button text="Next" onAction="#onNextButtonPressed"/>
+        <Button text="Toggle Visibility" onAction="#toggleImageVisibility"/>
+        <Label text="Time left:"/>
+        <Label fx:id="timer" text="00:00"/>
+    </HBox>
+</VBox>

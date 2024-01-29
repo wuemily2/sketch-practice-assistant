@@ -9,7 +9,7 @@ import java.util.TimerTask;
 This timer is used as a simple countdown timer.
  */
 public class CountdownTimer extends Observable {
-    Timer timer; //A timer object to subtract one from timeLeft every second
+    Timer timer = new Timer(); //A timer object to subtract one from timeLeft every second
     private int timeLeft = 300; // Time left, in seconds, in the countdown
     TimeoutResponder<CountdownTimer> responder;
     private boolean isTimerRunning = false;
@@ -53,10 +53,12 @@ public class CountdownTimer extends Observable {
                 CountdownTimer.this.notifyObservers();
             }
             if(CountdownTimer.this.timeLeft <= 0){
+                CountdownTimer.this.stopTimer();// Stop the timer at 0. Don't call after responder
+                // because the responder may want to start a new timer
                 if(responder != null) {
                     CountdownTimer.this.responder.respond_to_timeout(CountdownTimer.this);
                 }
-                CountdownTimer.this.stopTimer();// Stop the timer at 0
+
             }
         }
         public void run(){

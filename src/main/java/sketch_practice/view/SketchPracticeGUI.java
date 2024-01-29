@@ -8,18 +8,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import sketch_practice.controller.CyclerController;
 import sketch_practice.model.CountdownTimer;
+import sketch_practice.model.ImageCycler;
 import sketch_practice.model.ImageFileFinder;
+import sketch_practice.util.CyclerCommand;
 import sketch_practice.util.Observable;
 import sketch_practice.util.Observer;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 
 public class SketchPracticeGUI implements Observer {
@@ -51,8 +52,24 @@ public class SketchPracticeGUI implements Observer {
             startButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    System.out.println(settingsController.getDepth()); //WORKS!
-                    SketchPracticeGUI.this.switchView();
+                    // Set up recursion depth
+                    int depth = settingsController.getDepth();
+                    int seconds = settingsController.getSelectedTime();
+                    if(depth >= 0 && seconds > 0){
+                        SketchPracticeGUI.this.controller.setImageFileFinderSearchDepth(depth);
+                        SketchPracticeGUI.this.controller.setCountDownTimer(seconds);
+                    }else{
+                        userMessage.setText("Invalid depth or fewer than 1 seconds inputted!");
+                        return;
+                    }
+                    if(SketchPracticeGUI.this.controller.startSession(SketchPracticeGUI.this)){
+                        SketchPracticeGUI.this.switchView(); //TODO: change if needed
+                    }else{
+                        userMessage.setText(
+                                "Can't start session for some reason!\n Did you add any images?"
+                        );//Shouldn't reach here unless you add 0 images.
+                    }
+
                 }
             });
             HBox bottomBar = new HBox(userMessage, startButton);
@@ -69,15 +86,23 @@ public class SketchPracticeGUI implements Observer {
     }
 
     class CyclingGUI extends Pane{
-        public CyclingGUI (){
-            Button switchbutton = new Button("CyclingGui");
-            switchbutton.setOnAction(new EventHandler<ActionEvent>() {
+        CyclingGUIFXMLController cyclingController;
+        public CyclingGUI () throws IOException {
+            Button backButton = new Button("<- Go Back");
+            backButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
+                    SketchPracticeGUI.this.controller.executeCyclerCommand(CyclerCommand.EXIT_CYCLING);
                     SketchPracticeGUI.this.switchView();
                 }
             });
-            this.getChildren().add(switchbutton);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CyclingGUI.fxml"));
+            this.cyclingController = new CyclingGUIFXMLController(controller);
+            fxmlLoader.setController(cyclingController);
+            VBox settingsGUIComponent = fxmlLoader.load();
+
+            VBox cyclingLayout = new VBox(backButton, settingsGUIComponent);
+            this.getChildren().add(cyclingLayout);
         }
     }
 
@@ -109,13 +134,28 @@ public class SketchPracticeGUI implements Observer {
         stage.hide();
     }
 
-    public void update(Observable o){
+    public void update(Observable o) {
         if(o instanceof CountdownTimer){
             CountdownTimer timer = (CountdownTimer) o;
-            //TODO: Add code to change on screen timer value
+            boolean isPlaying = timer.getIfTimerisRunning();
+            if(isPlaying){
+                this.cyclingGUI.cyclingController.setPlayButtonDisplay("Pause");
+            }else{
+                this.cyclingGUI.cyclingController.setPlayButtonDisplay("Play");
+            }
+            this.cyclingGUI.cyclingController.setTimerDisplay(timer.getTimeLeftAsString());
         }else if(o instanceof ImageFileFinder){
             ImageFileFinder finder = (ImageFileFinder) o;
             this.settingsGUI.settingsController.modifyFileObjectEntries(finder.getCurrentSelection());
+        }else if(o instanceof ImageCycler){//TODO add more error checking
+            ImageCycler cycler = (ImageCycler) o;
+            Image newImage = cycler.get_current_image();
+            if(newImage == null) {
+                this.controller.executeCyclerCommand(CyclerCommand.ADVANCE_NEXT);//TODO: FIX - This won't work if we wanna go backwards.
+            }else{
+                this.cyclingGUI.cyclingController.setImageToDisplay(newImage);
+            }
+
         }
 
     }
