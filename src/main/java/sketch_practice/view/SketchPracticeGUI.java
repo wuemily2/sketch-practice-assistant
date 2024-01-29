@@ -112,7 +112,7 @@ public class SketchPracticeGUI implements Observer {
     public SketchPracticeGUI(Stage applicationStage, CyclerController controller) throws IOException {
         this.controller = controller;
         this.stage = applicationStage;
-        //TODO - implement the following guis
+        //
         this.settingsGUI = new SettingsGUI();
         this.cyclingGUI = new CyclingGUI();
         //
@@ -124,16 +124,9 @@ public class SketchPracticeGUI implements Observer {
         this.masterScene.setRoot(
                 this.masterScene.getRoot() == settingsGUI ? cyclingGUI : settingsGUI);
     }
-    public Stage getStage(){
-        return this.stage;
-    }
 
     public void showStage(){
-        stage.show();
-    }
-
-    public void hideStage(){
-        stage.hide();
+        this.stage.show();
     }
 
     public void update(Observable o) {
