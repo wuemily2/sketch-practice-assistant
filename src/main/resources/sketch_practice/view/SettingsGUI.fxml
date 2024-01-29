@@ -19,12 +19,15 @@
             <Button text="Add Dir" onAction="#onAddDirButtonClicked"/>
             <Button text="Add Image Files" onAction="#onAddFilesButtonClicked"/>
         </HBox>
-        <TextField fx:id="customDepthField">
-            <tooltip>
-                <Tooltip text="Enter max depth searched for images."/>
-            </tooltip>
-            3
-        </TextField>
+        <HBox>
+            <Label text="Set maximum depth for image search:"/>
+            <TextField fx:id="customDepthField">
+                <tooltip>
+                    <Tooltip text="Enter max depth searched for images."/>
+                </tooltip>
+                3
+            </TextField>
+        </HBox>
         <HBox>
             <ComboBox fx:id="fileList" visibleRowCount="5" promptText="Added Files are Here"/>
             <Button text="Remove Selected" onAction="#onRemoveFileButtonClicked"/>
