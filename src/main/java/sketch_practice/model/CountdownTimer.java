@@ -12,6 +12,7 @@ public class CountdownTimer extends Observable {
     Timer timer; //A timer object to subtract one from timeLeft every second
     private int timeLeft = 300; // Time left, in seconds, in the countdown
     TimeoutResponder<CountdownTimer> responder;
+    private boolean isTimerRunning = false;
 
     public CountdownTimer(){
         this.responder = null;
@@ -62,13 +63,33 @@ public class CountdownTimer extends Observable {
             executeTimerTick();
         }
     }
-    public void startTimer(){
-        this.timer = new Timer(); // Need a new timer because you can't schedule a task on an already used one
-        this.timer.scheduleAtFixedRate(new TickingTask(), 1000, 1000);
-    }
 
     public void stopTimer(){ //Need to reschedule task to start again.
         this.timer.cancel();
+        this.isTimerRunning = false;
+        this.notifyObservers();
+    }
+    protected void assignTimerTask(){// Called only in start timer
+        this.timer = new Timer(); // Need a new timer because you can't schedule a task on an already used one
+        this.timer.scheduleAtFixedRate(new TickingTask(), 1000, 1000);
+    }
+    public void startTimer(){
+        this.stopTimer(); // Ensure timer is stopped so we don't schedule another one
+        this.assignTimerTask();
+        this.isTimerRunning = true;
+        this.notifyObservers();
+    }
+
+    public void timerPlayToggle(){
+        if(this.isTimerRunning){
+            this.stopTimer();
+        }else{
+            this.startTimer();
+        }
+    }
+
+    public boolean getIfTimerisRunning(){
+        return this.isTimerRunning;
     }
 
     public void setNewTime(int newTimeInSeconds){

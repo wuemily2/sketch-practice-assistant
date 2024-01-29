@@ -30,7 +30,7 @@ public class JavaFXCountdownTimer extends CountdownTimer {
     }
 
     @Override
-    public void startTimer(){
+    protected void assignTimerTask(){
         this.timer = new Timer(); // Need a new timer because you can't schedule a task on an already used one
         this.timer.scheduleAtFixedRate(new JavaFXTickingTask(), 1000, 1000);
     }
