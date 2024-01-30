@@ -3,6 +3,7 @@ package sketch_practice.view;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -48,7 +49,7 @@ public class SketchPracticeGUI implements Observer {
             HBox settingsGUIComponent = fxmlLoader.load();
 
             // Add error message field to go with below button.
-            Label userMessage = new Label("Select Images to rotate through \n+ session time, and then press start");
+            Label userMessage = new Label("Select Images to rotate through + session time, and then press start");
             // Add a button to start cycling through images. Do this outside of the fxml file
             Button startButton = new Button("Start!");
             startButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -74,12 +75,17 @@ public class SketchPracticeGUI implements Observer {
 
                 }
             });
-            HBox bottomBar = new HBox(userMessage, startButton);
+            VBox rightBar = new VBox(userMessage, startButton);
+            rightBar.setAlignment(Pos.TOP_RIGHT);
             //this.getChildren().add(startButton);
 
             //Create VBOX
             //VBox settingsList = new VBox(radioList, startButton); // TODO add rest of the node list here
-            VBox settingsList = new VBox(settingsGUIComponent, bottomBar);
+            HBox settingsList = new HBox(settingsGUIComponent, rightBar);
+            settingsList.prefHeightProperty().bind(this.heightProperty()); //ensure it resizes with parent
+            settingsList.prefWidthProperty().bind(this.widthProperty()); //ensure it resizes with parent
+            settingsGUIComponent.prefHeightProperty().bind(settingsList.heightProperty());
+            settingsGUIComponent.prefWidthProperty().bind(settingsList.widthProperty());
 
             this.getChildren().add(settingsList);
         }
@@ -105,6 +111,10 @@ public class SketchPracticeGUI implements Observer {
 
             VBox cyclingLayout = new VBox(backButton, settingsGUIComponent);
             this.getChildren().add(cyclingLayout);
+            cyclingLayout.prefHeightProperty().bind(this.heightProperty());
+            cyclingLayout.prefWidthProperty().bind(this.widthProperty());
+            settingsGUIComponent.prefHeightProperty().bind(cyclingLayout.prefHeightProperty());
+            settingsGUIComponent.prefWidthProperty().bind(cyclingLayout.prefWidthProperty());
         }
     }
 
@@ -116,7 +126,18 @@ public class SketchPracticeGUI implements Observer {
         this.settingsGUI = new SettingsGUI();
         this.cyclingGUI = new CyclingGUI();
         //
+
+        //bind height and width
+        settingsGUI.prefHeightProperty().bind(this.stage.heightProperty());
+        settingsGUI.prefWidthProperty().bind(this.stage.widthProperty());
+        cyclingGUI.prefHeightProperty().bind(this.stage.heightProperty());
+        cyclingGUI.prefWidthProperty().bind(this.stage.widthProperty());
+
+        //Set Scene and style sheets applied to the scene
         this.masterScene = new Scene(settingsGUI); // Initially start the app with a settings GUI
+        this.masterScene.getStylesheets().add(String.valueOf(getClass().getResource("simpleStyleSheet.css")));
+
+        //
         this.stage.setScene(this.masterScene);
     }
 
