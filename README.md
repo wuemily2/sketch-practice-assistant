@@ -29,3 +29,6 @@ But you can probably use the free community edition.
 3. Project Structure > Project Settings > Project, set sdk to open openjdk 21 if it isn't already set
 4. right click pom.xml file, go to "Maven" and reload project if project isn't loaded based on that already
 5. Right click SketchPractice class and run SketchPractice.main()
+
+## Code quality
+I didn't clean up the code or do much refactoring so it's probably a mess.
