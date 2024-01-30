@@ -2,31 +2,17 @@ package sketch_practice;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import sketch_practice.controller.CyclerController;
-import sketch_practice.model.ImageCycler;
+import sketch_practice.model.CountdownTimer;
 import sketch_practice.model.ImageFileFinder;
 import sketch_practice.model.JavaFXCountdownTimer;
-import sketch_practice.model.CountdownTimer;
 import sketch_practice.view.SketchPracticeGUI;
 import sketch_practice.view.setup_util.FormatStage;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
 public class SketchPractice extends Application {
     public static void main(String [] args) {

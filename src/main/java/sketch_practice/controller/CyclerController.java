@@ -1,10 +1,8 @@
 package sketch_practice.controller;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import sketch_practice.model.CountdownTimer;
 import sketch_practice.model.ImageCycler;
 import sketch_practice.model.ImageFileFinder;
-import sketch_practice.model.CountdownTimer;
 import sketch_practice.util.CyclerCommand;
 import sketch_practice.util.Observer;
 

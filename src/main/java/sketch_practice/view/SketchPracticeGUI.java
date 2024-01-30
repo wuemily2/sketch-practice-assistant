@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import sketch_practice.controller.CyclerController;
 import sketch_practice.model.CountdownTimer;
 import sketch_practice.model.ImageCycler;
@@ -18,13 +19,10 @@ import sketch_practice.model.ImageFileFinder;
 import sketch_practice.util.CyclerCommand;
 import sketch_practice.util.Observable;
 import sketch_practice.util.Observer;
-import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.File;
-import java.util.Objects;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class SketchPracticeGUI implements Observer {
     private Stage stage;

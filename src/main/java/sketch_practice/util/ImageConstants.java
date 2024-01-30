@@ -1,7 +1,5 @@
 package sketch_practice.util;
 
-import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;

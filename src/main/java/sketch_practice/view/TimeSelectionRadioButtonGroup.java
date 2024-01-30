@@ -1,9 +1,7 @@
 package sketch_practice.view;
 
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class TimeSelectionRadioButtonGroup extends VBox {

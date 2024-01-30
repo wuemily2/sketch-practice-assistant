@@ -6,15 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import sketch_practice.controller.CyclerController;
 import sketch_practice.util.ImageConstants;
-import sketch_practice.util.Observable;
 
 import java.io.File;
 import java.util.ArrayList;
