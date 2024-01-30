@@ -9,37 +9,40 @@
 <?import java.io.File?>
 
 <?import sketch_practice.view.TimeSelectionRadioButtonGroup?>
-<HBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<HBox fx:id="settingsGUIRoot" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
-    <VBox> <!--Containing file selections-->
+    <VBox prefWidth="${settingsGUIRoot.width}" spacing="5"> <!--Containing file selections-->
+        <Label text="Add Image Files:"/>
+        <Button text="Add Dir" onAction="#onAddDirButtonClicked"/>
+        <Button text="Add Image Files" onAction="#onAddFilesButtonClicked"/>
+        <Label text="Set maximum depth for image search:"/>
+        <TextField fx:id="customDepthField">
+            <tooltip>
+                <Tooltip text="Enter max depth searched for images."/>
+            </tooltip>
+            3
+        </TextField>
         <HBox>
-            <Label text="Add Image Files:"/>
-            <Button text="Add Dir" onAction="#onAddDirButtonClicked"/>
-            <Button text="Add Image Files" onAction="#onAddFilesButtonClicked"/>
+            <Label text="Selected List: "/>
+            <ComboBox fx:id="fileList" visibleRowCount="5" promptText="Added Files are Here"/>
         </HBox>
+        <Button text="Remove Selected" onAction="#onRemoveFileButtonClicked"/>
+    </VBox>
+    <VBox minWidth="20">
+
+    </VBox>
+    <VBox prefWidth="${settingsGUIRoot.width}"> <!--Radio button selection and custom field-->
+        <Label text="Set a custom time below:"/>
+        <TimeSelectionRadioButtonGroup fx:id="radioGroup"/>
         <HBox>
-            <Label text="Set maximum depth for image search:"/>
-            <TextField fx:id="customDepthField">
+            <TextField fx:id="customTimeField">
                 <tooltip>
-                    <Tooltip text="Enter max depth searched for images."/>
+                    <Tooltip text="Enter a custom time in seconds."/>
                 </tooltip>
-                3
+                6000
             </TextField>
         </HBox>
-        <HBox>
-            <ComboBox fx:id="fileList" visibleRowCount="5" promptText="Added Files are Here"/>
-            <Button text="Remove Selected" onAction="#onRemoveFileButtonClicked"/>
-        </HBox>
-    </VBox>
-    <VBox> <!--Radio button selection and custom field-->
-        <TimeSelectionRadioButtonGroup fx:id="radioGroup"/>
-        <TextField fx:id="customTimeField">
-            <tooltip>
-                <Tooltip text="Enter a custom time in seconds."/>
-            </tooltip>
-            6000
-        </TextField>
     </VBox>
 </HBox>

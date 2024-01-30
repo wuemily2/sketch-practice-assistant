@@ -49,7 +49,7 @@ public class SketchPracticeGUI implements Observer {
             HBox settingsGUIComponent = fxmlLoader.load();
 
             // Add error message field to go with below button.
-            Label userMessage = new Label("Select Images to rotate through + session time, and then press start");
+            Label userMessage = new Label("Select Images to rotate through + session time, and then press start!");
             // Add a button to start cycling through images. Do this outside of the fxml file
             Button startButton = new Button("Start!");
             startButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -76,11 +76,10 @@ public class SketchPracticeGUI implements Observer {
                 }
             });
             VBox rightBar = new VBox(userMessage, startButton);
-            rightBar.setAlignment(Pos.TOP_RIGHT);
-            //this.getChildren().add(startButton);
+            rightBar.setSpacing(20);
+            rightBar.setAlignment(Pos.TOP_LEFT);
 
             //Create VBOX
-            //VBox settingsList = new VBox(radioList, startButton); // TODO add rest of the node list here
             HBox settingsList = new HBox(settingsGUIComponent, rightBar);
             settingsList.prefHeightProperty().bind(this.heightProperty()); //ensure it resizes with parent
             settingsList.prefWidthProperty().bind(this.widthProperty()); //ensure it resizes with parent
@@ -104,12 +103,17 @@ public class SketchPracticeGUI implements Observer {
                     SketchPracticeGUI.this.switchView();
                 }
             });
+            Label errLabel = new Label("    Don't see an image? If so, try toggling or changing the image.");
+            HBox topBar = new HBox(backButton, errLabel);
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CyclingGUI.fxml"));
             this.cyclingController = new CyclingGUIFXMLController(controller);
             fxmlLoader.setController(cyclingController);
             VBox settingsGUIComponent = fxmlLoader.load();
+            settingsGUIComponent.setSpacing(5);
 
-            VBox cyclingLayout = new VBox(backButton, settingsGUIComponent);
+            VBox cyclingLayout = new VBox(topBar, settingsGUIComponent);
+            cyclingLayout.setSpacing(5);
             this.getChildren().add(cyclingLayout);
             cyclingLayout.prefHeightProperty().bind(this.heightProperty());
             cyclingLayout.prefWidthProperty().bind(this.widthProperty());

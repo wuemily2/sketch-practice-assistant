@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -22,7 +23,10 @@ import sketch_practice.model.CountdownTimer;
 import sketch_practice.view.SketchPracticeGUI;
 import sketch_practice.view.setup_util.FormatStage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 
 public class SketchPractice extends Application {
     public static void main(String [] args) {
@@ -51,6 +55,17 @@ public class SketchPractice extends Application {
         //Attach observers to observables
         fileFinder.attach(view);
         timer.attach(view);
+        //Set a stage icon
+        try{
+            InputStream iconStream = getClass().getResourceAsStream("app_icon.png");
+            assert iconStream != null;
+            Image icon = new Image(iconStream);
+            stage.getIcons().add(icon);
+            iconStream.close();
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            System.err.println("Could not get an icon");
+        }
 
         //Finally, show the current scene.
         view.showStage();

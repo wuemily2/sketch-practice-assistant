@@ -12,25 +12,17 @@
 <?import javafx.scene.shape.Box?>
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" prefHeight="2000"> <!--Radio button selection and custom field-->
     <StackPane alignment="TOP_CENTER" fx:id="imageStack" prefHeight="10000">
-        <VBox alignment="CENTER">
-            <Label contentDisplay="CENTER" text="Don't see an image but didn't toggle visibility?" />
-            <Label text="The image probably changed names or locations, or got deleted" />
-            <Label text="Go back or press next to cycle to another image, or check if you can toggle visibility." />
-         <StackPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </StackPane.margin>
-        </VBox>
-        <Pane fx:id="pane" prefHeight="${imageStack.height}">
+        <Pane id="imageBG" fx:id="pane" prefHeight="${imageStack.height}" >
             <ImageView fx:id="imageDisplay" fitHeight="${pane.height}" fitWidth="${pane.width}"  preserveRatio="true" StackPane.alignment="CENTER" />
         </Pane>
     </StackPane>
     <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT">
-        <Label text="Time left: " />
-        <Label fx:id="timer" text="00:00" />
         <Button onAction="#onPreviousButtonPressed" text="Previous" />
         <Button fx:id="playToggle" onAction="#onPauseOrPlayPressed" text="Pause" />
         <Button onAction="#onNextButtonPressed" text="Next" />
         <Button onAction="#toggleImageVisibility" text="Toggle Visibility" />
+        <Label text="Time left: " />
+        <Label fx:id="timer" text="00:00" />
       <opaqueInsets>
          <Insets />
       </opaqueInsets>
